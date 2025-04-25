@@ -1,0 +1,19 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nuta.BuildingBlocks.Infrastructure.Inbox;
+
+namespace Nuta.Products.Infrastructure.Persistence.Relational.EntityTypeConfigurations;
+
+public class InboxMessageEntityTypeConfiguration : IEntityTypeConfiguration<InboxMessage>
+{
+    public void Configure(EntityTypeBuilder<InboxMessage> builder)
+    {
+        builder.HasKey(inboxMessage => inboxMessage.Id);
+
+        builder.Property(inboxMessage => inboxMessage.Type).IsRequired();
+        builder.Property(inboxMessage => inboxMessage.Payload).IsRequired();
+        builder.Property(inboxMessage => inboxMessage.Status).IsRequired();
+        builder.Property(inboxMessage => inboxMessage.RetryCount).IsRequired();
+        builder.Property(inboxMessage => inboxMessage.ReceivedAt).IsRequired();
+    }
+}
