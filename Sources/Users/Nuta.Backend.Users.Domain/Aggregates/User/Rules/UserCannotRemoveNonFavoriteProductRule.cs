@@ -1,0 +1,27 @@
+using Nuta.Backend.BuildingBlocks.Domain;
+using Nuta.Backend.Users.Domain.Aggregates.Product;
+using Nuta.Backend.Users.Domain.Aggregates.User.ValueObjects;
+
+namespace Nuta.Backend.Users.Domain.Aggregates.User.Rules;
+
+public class UserCannotRemoveNonFavoriteProductRule : IBusinessRule
+{
+    private IReadOnlyCollection<UserFavoriteProduct> FavoriteProducts { get; }
+    
+    private ProductId ProductId { get; }
+    
+    public UserCannotRemoveNonFavoriteProductRule(
+        IReadOnlyCollection<UserFavoriteProduct> favoriteProducts, 
+        ProductId productId)
+    {
+        FavoriteProducts = favoriteProducts;
+        ProductId = productId;
+    }
+    
+    public bool IsBroken()
+    {
+        return FavoriteProducts.All(p => p.ProductId != ProductId);
+    }
+
+    public string Message => "Пользователь не может удалить товар из избранного, если он не был ранее добавлен";
+}

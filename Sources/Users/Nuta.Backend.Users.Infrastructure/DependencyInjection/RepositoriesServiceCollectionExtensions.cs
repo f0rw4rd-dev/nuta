@@ -1,0 +1,15 @@
+using Microsoft.Extensions.DependencyInjection;
+using Nuta.Backend.Users.Domain.Repositories;
+using Nuta.Backend.Users.Infrastructure.Persistence.Repositories;
+
+namespace Nuta.Backend.Users.Infrastructure.DependencyInjection;
+
+internal static class RepositoriesServiceCollectionExtensions
+{
+    public static IServiceCollection AddRepositories(this IServiceCollection services)
+    {
+        services.AddScoped<IUserRepository, UserRepository>();
+
+        return services;
+    }
+}
