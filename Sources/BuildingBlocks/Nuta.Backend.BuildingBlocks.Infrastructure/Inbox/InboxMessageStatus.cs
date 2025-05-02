@@ -4,6 +4,6 @@ public enum InboxMessageStatus
 {
     New,
     Processing,
-    Processed,
+    Completed,
     Failed,
 }

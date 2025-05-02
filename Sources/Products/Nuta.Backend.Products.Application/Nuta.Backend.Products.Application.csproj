@@ -6,4 +6,12 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Commands\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Nuta.Backend.Products.Domain\Nuta.Backend.Products.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

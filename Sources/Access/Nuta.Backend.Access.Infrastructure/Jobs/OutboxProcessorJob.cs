@@ -1,20 +1,28 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
-using Nuta.Backend.Access.Infrastructure.Persistence.Relational;
+using Microsoft.Extensions.Logging;
+using Nuta.Backend.Access.Infrastructure.Postgres;
 using Nuta.Backend.BuildingBlocks.Infrastructure.EventBus;
+using Nuta.Backend.BuildingBlocks.Infrastructure.EventBus.Interfaces;
 using Nuta.Backend.BuildingBlocks.Infrastructure.Outbox;
 using Quartz;
 
 namespace Nuta.Backend.Access.Infrastructure.Jobs;
 
-internal class OutboxProcessorJob(AccessModuleDbContext moduleDbContext, IEventBus eventBus) : IJob
+internal class OutboxProcessorJob(
+    AccessModuleDbContext dbContext,
+    IEventBus eventBus,
+    ILogger<OutboxProcessorJob> logger)
+    : IJob
 {
+    private const int BatchSize = 20;
+
     public async Task Execute(IJobExecutionContext context)
     {
-        var messages = await moduleDbContext.Set<OutboxMessage>()
+        var messages = await dbContext.Set<OutboxMessage>()
             .Where(x => !x.IsSent)
             .OrderBy(x => x.OccurredAt)
-            .Take(20) //todo: make it configurable
+            .Take(BatchSize)
             .ToListAsync(context.CancellationToken);
 
         foreach (var message in messages)
@@ -30,10 +38,13 @@ internal class OutboxProcessorJob(AccessModuleDbContext moduleDbContext, IEventB
             }
             catch (Exception ex)
             {
-                //todo: log error
+                logger.LogError(
+                    ex,
+                    "Произошла ошибка при обработке сообщения из Outbox: {MessageId}",
+                    message.Id);
             }
         }
 
-        await moduleDbContext.SaveChangesAsync(context.CancellationToken);
+        await dbContext.SaveChangesAsync(context.CancellationToken);
     }
 }

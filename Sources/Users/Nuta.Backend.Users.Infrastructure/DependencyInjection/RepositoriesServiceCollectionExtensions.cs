@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Nuta.Backend.Users.Domain.Repositories;
-using Nuta.Backend.Users.Infrastructure.Persistence.Repositories;
+using Nuta.Backend.Users.Infrastructure.Repositories;
 
 namespace Nuta.Backend.Users.Infrastructure.DependencyInjection;
 

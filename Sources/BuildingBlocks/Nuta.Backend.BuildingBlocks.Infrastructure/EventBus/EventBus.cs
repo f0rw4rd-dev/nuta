@@ -1,4 +1,5 @@
 using MediatR;
+using Nuta.Backend.BuildingBlocks.Infrastructure.EventBus.Interfaces;
 
 namespace Nuta.Backend.BuildingBlocks.Infrastructure.EventBus;
 

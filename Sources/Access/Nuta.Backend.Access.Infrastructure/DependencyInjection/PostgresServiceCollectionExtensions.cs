@@ -1,11 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Nuta.Backend.BuildingBlocks.Infrastructure;
 using Nuta.Backend.Access.Options;
-using Nuta.Backend.Access.Infrastructure.Persistence.Relational;
-using Nuta.Backend.BuildingBlocks.Infrastructure.ValueConverters;
+using Nuta.Backend.Access.Infrastructure.Postgres;
 
 namespace Nuta.Backend.Access.Infrastructure.DependencyInjection;
 
@@ -20,7 +17,6 @@ internal static class PostgresServiceCollectionExtensions
 
             options.UseNpgsql(postgresOptions.ConnectionString);
             options.UseSnakeCaseNamingConvention();
-            options.ReplaceService<IValueConverterSelector, StronglyTypedIdValueConverterSelector>();
             options.UseOpenIddict();
         });
 

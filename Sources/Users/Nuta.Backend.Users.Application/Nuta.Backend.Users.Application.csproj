@@ -12,11 +12,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Configuration\" />
+      <ProjectReference Include="..\..\Access\Nuta.Backend.Access.IntegrationEvents\Nuta.Backend.Access.IntegrationEvents.csproj" />
+      <ProjectReference Include="..\Nuta.Backend.Users.Domain\Nuta.Backend.Users.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Access\Nuta.Backend.Access.IntegrationEvents\Nuta.Backend.Access.IntegrationEvents.csproj" />
+      <Folder Include="Commands\" />
     </ItemGroup>
 
 </Project>

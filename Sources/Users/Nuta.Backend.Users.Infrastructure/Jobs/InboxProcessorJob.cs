@@ -1,12 +1,12 @@
-using Nuta.Backend.Users.Infrastructure.Persistence.Relational;
+using Nuta.Backend.Users.Infrastructure.Postgres;
 using Quartz;
 
 namespace Nuta.Backend.Users.Infrastructure.Jobs;
 
-// public class InboxProcessorJob(UsersModuleDbContext moduleDbContext) : IJob
-// {
-//     public async Task Execute(IJobExecutionContext context)
-//     {
-//         throw new NotImplementedException();
-//     }
-// }
+public class InboxProcessorJob(UsersModuleDbContext dbContext) : IJob
+{
+    public Task Execute(IJobExecutionContext context)
+    {
+        return Task.CompletedTask;
+    }
+}

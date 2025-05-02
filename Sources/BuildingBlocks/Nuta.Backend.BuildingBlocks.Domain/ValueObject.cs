@@ -64,7 +64,7 @@ public abstract class ValueObject : IEquatable<ValueObject>
     {
         return _properties ??= GetType()
             .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-            .Where(p => p.GetCustomAttribute(typeof(IgnoreMemberAttribute)) is null)
+            .Where(propertyInfo => propertyInfo.GetCustomAttribute<IgnoreMemberAttribute>() is null)
             .ToList();
     }
 
@@ -72,11 +72,11 @@ public abstract class ValueObject : IEquatable<ValueObject>
     {
         return _fields ??= GetType()
             .GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-            .Where(p => p.GetCustomAttribute(typeof(IgnoreMemberAttribute)) is null)
+            .Where(fieldInfo => fieldInfo.GetCustomAttribute<IgnoreMemberAttribute>() is null)
             .ToList();
     }
 
-    private int HashValue(int seed, object? value)
+    private static int HashValue(int seed, object? value)
     {
         var currentHash = value?.GetHashCode() ?? 0;
 

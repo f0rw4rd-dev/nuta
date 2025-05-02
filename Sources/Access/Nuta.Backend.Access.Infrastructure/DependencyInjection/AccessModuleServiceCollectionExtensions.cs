@@ -1,13 +1,16 @@
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Nuta.Backend.Access.Infrastructure.DependencyInjection;
 using Nuta.Backend.Access.Options;
 
 namespace Nuta.Backend.Access.Infrastructure.DependencyInjection;
 
 public static class AccessModuleServiceCollectionExtensions
 {
-    public static IServiceCollection AddAccessModule(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddAccessModule(
+        this IServiceCollection services, 
+        IConfiguration configuration,
+        IWebHostEnvironment environment)
     {
         services.AddOptions<AccessModuleOptions>()
             .Bind(configuration.GetSection("AccessModule"))
@@ -16,7 +19,7 @@ public static class AccessModuleServiceCollectionExtensions
         
         services.AddPostgres();
         services.AddRepositories();
-        services.AddAccess();
+        services.AddAccess(environment);
 
         return services;
     }

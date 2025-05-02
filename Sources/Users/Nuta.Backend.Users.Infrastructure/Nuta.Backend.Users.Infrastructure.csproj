@@ -34,8 +34,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Persistence\" />
-      <Folder Include="Persistence\Relational\Migrations\" />
+      <Folder Include="Postgres\Migrations\" />
     </ItemGroup>
 
 </Project>

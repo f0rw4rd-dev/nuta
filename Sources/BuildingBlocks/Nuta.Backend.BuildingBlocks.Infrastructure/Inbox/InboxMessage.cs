@@ -1,21 +1,25 @@
-﻿namespace Nuta.Backend.BuildingBlocks.Infrastructure.Inbox;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Nuta.Backend.BuildingBlocks.Infrastructure.Inbox;
 
 public class InboxMessage
 {
     public Guid Id { get; }
 
-    public string Type { get; }
+    public string Type { get; } = null!;
 
-    public string Payload { get; }
-    
-    public InboxMessageStatus Status { get; }
+    public string Payload { get; } = null!;
+
+    public InboxMessageStatus Status { get; private set; }
     
     public int RetryCount { get; private set; }
 
     public DateTime ReceivedAt { get; }
 
+    [SuppressMessage("ReSharper", "UnusedMember.Local")]
     private InboxMessage()
     {
+        // EF Core
     }
 
     public InboxMessage(string type, string payload)
@@ -27,8 +31,9 @@ public class InboxMessage
         ReceivedAt = DateTime.UtcNow;
     }
     
-    public void MarkAsProcessed()
+    public void MarkAsCompleted()
     {
+        Status = InboxMessageStatus.Completed;
     }
     
     public void IncrementRetryCount()

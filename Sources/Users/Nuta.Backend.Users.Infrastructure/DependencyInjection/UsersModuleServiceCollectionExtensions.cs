@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Nuta.Backend.Users.Infrastructure.DependencyInjection;
 using Nuta.Backend.Users.Options;
 
 namespace Nuta.Backend.Users.Infrastructure.DependencyInjection;

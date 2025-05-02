@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Nuta.Backend.BuildingBlocks.Infrastructure.EventBus;
+using Nuta.Backend.BuildingBlocks.Infrastructure.EventBus.Interfaces;
 
 namespace Nuta.Backend.BuildingBlocks.Infrastructure.DependencyInjection;
 

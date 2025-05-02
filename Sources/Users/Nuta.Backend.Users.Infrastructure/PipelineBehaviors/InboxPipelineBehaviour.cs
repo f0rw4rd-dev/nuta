@@ -2,51 +2,30 @@ using System.Text.Json;
 using MediatR;
 using Nuta.Backend.BuildingBlocks.Infrastructure.EventBus;
 using Nuta.Backend.BuildingBlocks.Infrastructure.Inbox;
-using Nuta.Backend.Users.Infrastructure.Persistence.Relational;
+using Nuta.Backend.Users.Infrastructure.Postgres;
 
 namespace Nuta.Backend.Users.Infrastructure.PipelineBehaviors;
 
-internal class InboxPipelineBehaviour<TRequest, TResponse>(UsersModuleDbContext moduleDbContext)
+internal class InboxPipelineBehaviour<TRequest, TResponse>(UsersModuleDbContext dbContext)
     : IPipelineBehavior<TRequest, TResponse> where TRequest : IntegrationEvent
 {
-    private const int MaxRetryCount = 3; //todo: make it configurable
-    
     public async Task<TResponse> Handle(
         TRequest request,
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        var inboxMessage = await moduleDbContext.InboxMessages.FindAsync([request.Id], cancellationToken);
+        var inboxMessage = await dbContext.InboxMessages.FindAsync([request.Id], cancellationToken);
 
-        if (inboxMessage is { Status: InboxMessageStatus.Processed })
-            return default!;
-
-        if (inboxMessage is null)
-        {
-            moduleDbContext.InboxMessages.Add(
-                new InboxMessage(
-                    request.GetType().AssemblyQualifiedName!,
-                    JsonSerializer.Serialize(request)));
-            
-            await moduleDbContext.SaveChangesAsync(cancellationToken);
-        }
-
-        try
-        {
-            inboxMessage!.MarkAsProcessed();
-            await moduleDbContext.SaveChangesAsync(cancellationToken);
-            
+        if (inboxMessage is not null)
             return await next(cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            inboxMessage!.IncrementRetryCount();
-            await moduleDbContext.SaveChangesAsync(cancellationToken);
 
-            if (inboxMessage.RetryCount >= MaxRetryCount)
-                throw;
+        dbContext.InboxMessages.Add(
+            new InboxMessage(
+                type: request.GetType().AssemblyQualifiedName!,
+                payload: JsonSerializer.Serialize(request)));
 
-            throw; //todo: InboxRetryNeededException
-        }
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        return await next(cancellationToken);
     }
 }

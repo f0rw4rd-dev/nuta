@@ -1,4 +1,6 @@
-﻿namespace Nuta.Backend.BuildingBlocks.Infrastructure.Outbox;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Nuta.Backend.BuildingBlocks.Infrastructure.Outbox;
 
 public class OutboxMessage
 {
@@ -12,8 +14,10 @@ public class OutboxMessage
     
     public DateTime OccurredAt { get; }
     
+    [SuppressMessage("ReSharper", "UnusedMember.Local")]
     private OutboxMessage()
     {
+        // EF Core
     }
 
     public OutboxMessage(string type, string payload)

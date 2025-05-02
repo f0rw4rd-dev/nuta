@@ -1,8 +1,8 @@
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Nuta.Backend.Access.Domain.Entities;
-using Nuta.Backend.Access.Infrastructure.Persistence.Relational;
+using Microsoft.Extensions.Hosting;
+using Nuta.Backend.Access.Infrastructure.Postgres;
 using IdentityRole = Nuta.Backend.Access.Domain.Entities.IdentityRole;
 using IdentityUser = Nuta.Backend.Access.Domain.Entities.IdentityUser;
 
@@ -10,7 +10,7 @@ namespace Nuta.Backend.Access.Infrastructure.DependencyInjection;
 
 internal static class AccessServiceCollectionExtensions
 {
-    public static IServiceCollection AddAccess(this IServiceCollection services)
+    public static IServiceCollection AddAccess(this IServiceCollection services, IWebHostEnvironment environment)
     {
         services
             .AddIdentityCore<IdentityUser>(identityOptions =>
@@ -32,8 +32,21 @@ internal static class AccessServiceCollectionExtensions
                 openIddictServerBuilder.SetTokenEndpointUris("/connect/token")
                     .AllowPasswordFlow()
                     .AcceptAnonymousClients()
+                    .AddDevelopmentEncryptionCertificate()
+                    .AddDevelopmentSigningCertificate()
                     .UseAspNetCore()
                     .EnableTokenEndpointPassthrough();
+
+                if (environment.IsDevelopment())
+                {
+                    openIddictServerBuilder
+                        .AddDevelopmentEncryptionCertificate()
+                        .AddDevelopmentSigningCertificate();
+                }
+                else
+                {
+                    //TODO: AddEncryptionCertificate(...) + AddSigningCertificate(...)
+                }
             })
             .AddValidation(openIddictValidationBuilder =>
             {

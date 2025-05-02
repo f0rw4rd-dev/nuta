@@ -10,9 +10,4 @@
       <ProjectReference Include="..\..\BuildingBlocks\Nuta.Backend.BuildingBlocks.Domain\Nuta.Backend.BuildingBlocks.Domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Commands\" />
-      <Folder Include="Queries\" />
-    </ItemGroup>
-
 </Project>

@@ -2,15 +2,9 @@ using MediatR;
 
 namespace Nuta.Backend.BuildingBlocks.Infrastructure.EventBus;
 
-public abstract class IntegrationEvent : INotification
+public abstract class IntegrationEvent(Guid id, DateTime occurredAt) : INotification
 {
-    public Guid Id { get; }
+    public Guid Id { get; } = id;
 
-    public DateTime OccurredAt { get; }
-
-    protected IntegrationEvent(Guid id, DateTime occurredAt)
-    {
-        Id = id;
-        OccurredAt = occurredAt;
-    }
+    public DateTime OccurredAt { get; } = occurredAt;
 }
