@@ -65,7 +65,7 @@ namespace Nuta.Backend.Users.Infrastructure.Postgres.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "user_favorite_products",
+                name: "user_favorite_product",
                 schema: "users",
                 columns: table => new
                 {
@@ -75,9 +75,9 @@ namespace Nuta.Backend.Users.Infrastructure.Postgres.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_user_favorite_products", x => new { x.user_id, x.product_id });
+                    table.PrimaryKey("pk_user_favorite_product", x => new { x.user_id, x.product_id });
                     table.ForeignKey(
-                        name: "fk_user_favorite_products_users_user_id",
+                        name: "fk_user_favorite_product_users_user_id",
                         column: x => x.user_id,
                         principalSchema: "users",
                         principalTable: "users",
@@ -86,7 +86,7 @@ namespace Nuta.Backend.Users.Infrastructure.Postgres.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "user_product_views",
+                name: "user_viewed_product",
                 schema: "users",
                 columns: table => new
                 {
@@ -96,9 +96,9 @@ namespace Nuta.Backend.Users.Infrastructure.Postgres.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_user_product_views", x => new { x.user_id, x.product_id });
+                    table.PrimaryKey("pk_user_viewed_product", x => new { x.user_id, x.product_id });
                     table.ForeignKey(
-                        name: "fk_user_product_views_users_user_id",
+                        name: "fk_user_viewed_product_users_user_id",
                         column: x => x.user_id,
                         principalSchema: "users",
                         principalTable: "users",
@@ -119,11 +119,11 @@ namespace Nuta.Backend.Users.Infrastructure.Postgres.Migrations
                 schema: "users");
 
             migrationBuilder.DropTable(
-                name: "user_favorite_products",
+                name: "user_favorite_product",
                 schema: "users");
 
             migrationBuilder.DropTable(
-                name: "user_product_views",
+                name: "user_viewed_product",
                 schema: "users");
 
             migrationBuilder.DropTable(

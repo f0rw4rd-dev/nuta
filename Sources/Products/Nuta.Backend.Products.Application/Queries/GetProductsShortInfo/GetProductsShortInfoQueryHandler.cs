@@ -3,15 +3,15 @@ using Nuta.Backend.Products.Application.Dtos;
 using Nuta.Backend.Products.Application.Services.Interfaces;
 using Nuta.Backend.Products.Domain.Repositories;
 
-namespace Nuta.Backend.Products.Application.Queries.GetProductShortInfoList;
+namespace Nuta.Backend.Products.Application.Queries.GetProductsShortInfo;
 
-public class GetProductShortInfoListQueryHandler(
+public class GetProductsShortInfoQueryHandler(
     IProductRepository productRepository,
     IProductAssessmentService productAssessmentService)
-    : IRequestHandler<GetProductShortInfoListQuery, IReadOnlyCollection<ProductShortInfoDto>>
+    : IRequestHandler<GetProductsShortInfoQuery, IReadOnlyCollection<ProductShortInfoDto>>
 {
     public async Task<IReadOnlyCollection<ProductShortInfoDto>> Handle(
-        GetProductShortInfoListQuery request,
+        GetProductsShortInfoQuery request,
         CancellationToken cancellationToken)
     {
         var products = await productRepository.GetListAsync(

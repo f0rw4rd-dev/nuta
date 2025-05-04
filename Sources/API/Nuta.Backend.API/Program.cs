@@ -2,6 +2,7 @@ using Asp.Versioning;
 using Nuta.Backend.Access.Domain.Enums;
 using Nuta.Backend.Access.Infrastructure.DependencyInjection;
 using Nuta.Backend.Access.Infrastructure.Postgres;
+using Nuta.Backend.API.Filters;
 using Nuta.Backend.BuildingBlocks.Infrastructure.DependencyInjection;
 using Nuta.Backend.Products.Infrastructure.DependencyInjection;
 using Nuta.Backend.Products.Infrastructure.Postgres;
@@ -10,7 +11,10 @@ using Nuta.Backend.Users.Infrastructure.Postgres;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ApiExceptionFilter>();
+});
 
 builder.Services.AddOpenApi("UsersModuleV1");
 builder.Services.AddOpenApi("ProductsModuleV1");
@@ -34,10 +38,16 @@ builder.Services
         options.SubstituteApiVersionInUrl = true;
     });
 
-builder.Services.AddAuthorization(opt =>
+builder.Services.AddAuthorization(options =>
 {
     foreach (var p in Enum.GetValues<Permission>())
-        opt.AddPolicy(p.ToString(), pb => pb.RequireClaim("permission", p.ToString()));
+        options.AddPolicy(p.ToString(), pb => pb.RequireClaim("permission", p.ToString()));
+});
+
+builder.Services.Configure<RouteOptions>(options =>
+{
+    options.LowercaseUrls = true;
+    options.LowercaseQueryStrings = true;
 });
 
 var app = builder.Build();

@@ -8,6 +8,6 @@ public class BusinessRuleValidationException(IBusinessRule brokenRule) : Excepti
 
     public override string ToString()
     {
-        return $"{BrokenRule.GetType().FullName}: {BrokenRule.Message}";
+        return $"Бизнес-правило {BrokenRule.GetType().FullName} нарушено. Message = {BrokenRule.Message}";
     }
 }

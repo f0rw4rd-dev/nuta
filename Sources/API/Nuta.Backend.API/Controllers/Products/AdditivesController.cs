@@ -8,6 +8,6 @@ namespace Nuta.Backend.API.Controllers.Products;
 [ApiVersion("1.0")]
 [ApiExplorerSettings(GroupName = "ProductsModuleV1")]
 [Route("api/products/v{version:apiVersion}/[controller]")]
-public class AdditiveController(IMediator mediator) : ControllerBase
+public class AdditivesController(IMediator mediator) : ControllerBase
 {
 }

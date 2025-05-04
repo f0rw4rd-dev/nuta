@@ -10,29 +10,34 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder.HasKey(user => user.Id);
 
+        builder.Property(user => user.Id).ValueGeneratedNever();
         builder.Property(user => user.Name).IsRequired();
         builder.Property(user => user.AvatarKey);
         builder.Property(user => user.CreatedAt).IsRequired();
         builder.Property(user => user.UpdatedAt).IsRequired();
-
+        
         builder.OwnsOne(user => user.FoodPreferences, navBuilder => navBuilder.ToJson());
-
+        
         builder.OwnsMany(user => user.FavoriteProducts, navBuilder =>
         {
-            navBuilder.WithOwner().HasForeignKey(userFavoriteProduct => userFavoriteProduct.UserId);
-
-            navBuilder.HasKey(userFavoriteProduct => new { userFavoriteProduct.UserId, userFavoriteProduct.ProductId });
+            navBuilder.WithOwner().HasForeignKey(favoriteProduct => favoriteProduct.UserId);
             
-            navBuilder.Property(userFavoriteProduct => userFavoriteProduct.LikedAt).IsRequired();
+            navBuilder.HasKey(favoriteProduct => new { favoriteProduct.UserId, favoriteProduct.ProductId });
+            
+            navBuilder.Property(favoriteProduct => favoriteProduct.UserId).ValueGeneratedNever();
+            navBuilder.Property(favoriteProduct => favoriteProduct.ProductId).ValueGeneratedNever();
+            navBuilder.Property(favoriteProduct => favoriteProduct.LikedAt).IsRequired();
         });
-
+        
         builder.OwnsMany(user => user.ViewedProducts, navBuilder =>
         {
-            navBuilder.WithOwner().HasForeignKey(userProductView => userProductView.UserId);
-
-            navBuilder.HasKey(userProductView => new { userProductView.UserId, userProductView.ProductId });
-            
-            navBuilder.Property(userProductView => userProductView.ViewedAt).IsRequired();
+            navBuilder.WithOwner().HasForeignKey(viewedProduct => viewedProduct.UserId);
+        
+            navBuilder.HasKey(viewedProduct => new { viewedProduct.UserId, viewedProduct.ProductId });
+        
+            navBuilder.Property(viewedProduct => viewedProduct.UserId).IsRequired();
+            navBuilder.Property(viewedProduct => viewedProduct.ProductId).IsRequired();
+            navBuilder.Property(viewedProduct => viewedProduct.ViewedAt).IsRequired();
         });
     }
 }

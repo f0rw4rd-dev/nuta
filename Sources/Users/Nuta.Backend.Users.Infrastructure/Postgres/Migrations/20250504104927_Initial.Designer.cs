@@ -12,7 +12,7 @@ using Nuta.Backend.Users.Infrastructure.Postgres;
 namespace Nuta.Backend.Users.Infrastructure.Postgres.Migrations
 {
     [DbContext(typeof(UsersModuleDbContext))]
-    [Migration("20250502112746_Initial")]
+    [Migration("20250504104927_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -95,7 +95,6 @@ namespace Nuta.Backend.Users.Infrastructure.Postgres.Migrations
             modelBuilder.Entity("Nuta.Backend.Users.Domain.Aggregates.User", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -131,7 +130,6 @@ namespace Nuta.Backend.Users.Infrastructure.Postgres.Migrations
                                 .HasColumnName("user_id");
 
                             b1.Property<Guid>("ProductId")
-                                .ValueGeneratedOnAdd()
                                 .HasColumnType("uuid")
                                 .HasColumnName("product_id");
 
@@ -140,16 +138,16 @@ namespace Nuta.Backend.Users.Infrastructure.Postgres.Migrations
                                 .HasColumnName("liked_at");
 
                             b1.HasKey("UserId", "ProductId")
-                                .HasName("pk_user_favorite_products");
+                                .HasName("pk_user_favorite_product");
 
-                            b1.ToTable("user_favorite_products", "users");
+                            b1.ToTable("user_favorite_product", "users");
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId")
-                                .HasConstraintName("fk_user_favorite_products_users_user_id");
+                                .HasConstraintName("fk_user_favorite_product_users_user_id");
                         });
 
-                    b.OwnsMany("Nuta.Backend.Users.Domain.Entities.UserProductView", "ViewedProducts", b1 =>
+                    b.OwnsMany("Nuta.Backend.Users.Domain.Entities.UserViewedProduct", "ViewedProducts", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uuid")
@@ -165,13 +163,13 @@ namespace Nuta.Backend.Users.Infrastructure.Postgres.Migrations
                                 .HasColumnName("viewed_at");
 
                             b1.HasKey("UserId", "ProductId")
-                                .HasName("pk_user_product_views");
+                                .HasName("pk_user_viewed_product");
 
-                            b1.ToTable("user_product_views", "users");
+                            b1.ToTable("user_viewed_product", "users");
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId")
-                                .HasConstraintName("fk_user_product_views_users_user_id");
+                                .HasConstraintName("fk_user_viewed_product_users_user_id");
                         });
 
                     b.OwnsOne("Nuta.Backend.Users.Domain.ValueObjects.FoodPreferences", "FoodPreferences", b1 =>

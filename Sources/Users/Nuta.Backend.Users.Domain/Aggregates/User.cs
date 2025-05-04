@@ -10,25 +10,24 @@ namespace Nuta.Backend.Users.Domain.Aggregates;
 public class User : Entity, IAggregateRoot
 {
     public Guid Id { get; }
-    
+
     public string Name { get; private set; } = null!;
-    
+
     public string? AvatarKey { get; private set; }
-    
     public DateTime CreatedAt { get; }
-    
+
     public DateTime UpdatedAt { get; private set; }
-    
+
     public FoodPreferences FoodPreferences { get; private set; } = null!;
-    
+
     private readonly List<UserFavoriteProduct> _favoriteProducts = [];
-    
-    private readonly List<UserProductView> _viewedProducts = [];
+
+    private readonly List<UserViewedProduct> _viewedProducts = [];
 
     public IReadOnlyCollection<UserFavoriteProduct> FavoriteProducts => _favoriteProducts;
-    
-    public IReadOnlyCollection<UserProductView> ViewedProducts => _viewedProducts;
-    
+
+    public IReadOnlyCollection<UserViewedProduct> ViewedProducts => _viewedProducts;
+
     [SuppressMessage("ReSharper", "UnusedMember.Local")]
     private User()
     {
@@ -44,7 +43,7 @@ public class User : Entity, IAggregateRoot
         FoodPreferences = FoodPreferences.Create();
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = CreatedAt;
-        
+
         AddDomainEvent(new UserCreatedDomainEvent(Id));
     }
 
@@ -86,15 +85,26 @@ public class User : Entity, IAggregateRoot
     {
         CheckRule(new UserCannotRemoveNonFavoriteProductRule(FavoriteProducts, productId));
 
-        var product = _favoriteProducts.First(p => p.ProductId == productId);
+        var product = _favoriteProducts.First(x => x.ProductId == productId);
         _favoriteProducts.Remove(product);
-        
+
         UpdatedAt = DateTime.UtcNow;
     }
 
     public void ViewProduct(Guid productId)
     {
-        _viewedProducts.Add(UserProductView.Create(Id, productId));
+        var viewedProduct = _viewedProducts.FirstOrDefault(x => x.ProductId == productId);
+
+        if (viewedProduct is null)
+            _viewedProducts.Add(UserViewedProduct.Create(Id, productId));
+        else
+            viewedProduct.UpdateViewedAt();
+    }
+
+    public void SetFoodPreferences(FoodPreferences foodPreferences)
+    {
+        FoodPreferences = foodPreferences;
+        UpdatedAt = DateTime.UtcNow;
     }
 
     public void SetNutritionPreferences(NutritionPreferences nutritionPreferences)

@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using Nuta.Backend.BuildingBlocks.Infrastructure.Inbox;
 using Nuta.Backend.BuildingBlocks.Infrastructure.Outbox;
 using Nuta.Backend.Users.Domain.Aggregates;
-using Nuta.Backend.Users.Domain.Entities;
 using Nuta.Backend.Users.Options;
 
 namespace Nuta.Backend.Users.Infrastructure.Postgres;
@@ -14,10 +13,6 @@ public class UsersModuleDbContext(
     : DbContext(options)
 {
     public DbSet<User> Users { get; set; }
-
-    public DbSet<UserFavoriteProduct> UserFavoriteProducts { get; set; }
-
-    public DbSet<UserProductView> UserProductViews { get; set; }
     
     public DbSet<OutboxMessage> OutboxMessages { get; set; }
     

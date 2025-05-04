@@ -2,7 +2,7 @@ using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Nuta.Backend.Products.Application.Dtos;
-using Nuta.Backend.Products.Application.Queries.GetProductShortInfoList;
+using Nuta.Backend.Products.Application.Queries.GetProductsShortInfo;
 
 namespace Nuta.Backend.API.Controllers.Products;
 
@@ -10,7 +10,7 @@ namespace Nuta.Backend.API.Controllers.Products;
 [ApiVersion("1.0")]
 [ApiExplorerSettings(GroupName = "ProductsModuleV1")]
 [Route("api/products/v{version:apiVersion}/[controller]")]
-public class ProductController(IMediator mediator) : ControllerBase
+public class ProductsController(IMediator mediator) : ControllerBase
 {
     [HttpGet("short-info")]
     public async Task<ActionResult<IReadOnlyCollection<ProductShortInfoDto>>> GetProductShortInfoListAsync(
@@ -18,7 +18,7 @@ public class ProductController(IMediator mediator) : ControllerBase
         CancellationToken cancellationToken)
     {
         var result = await mediator.Send(
-            new GetProductShortInfoListQuery(productIds),
+            new GetProductsShortInfoQuery(productIds),
             cancellationToken);
 
         return Ok(result);
