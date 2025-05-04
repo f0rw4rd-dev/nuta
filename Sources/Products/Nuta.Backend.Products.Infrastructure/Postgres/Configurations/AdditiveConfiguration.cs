@@ -10,6 +10,7 @@ public class AdditiveConfiguration : IEntityTypeConfiguration<Additive>
     {
         builder.HasKey(additive => additive.Id);
         
+        builder.Property(additive => additive.Id).ValueGeneratedNever();
         builder.Property(additive => additive.Name).IsRequired();
         builder.Property(additive => additive.ChemicalName).IsRequired();
         builder.Property(additive => additive.ENumber);

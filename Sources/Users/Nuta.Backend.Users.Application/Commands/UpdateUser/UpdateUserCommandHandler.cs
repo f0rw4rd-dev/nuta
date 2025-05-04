@@ -8,14 +8,15 @@ public class UpdateUserCommandHandler(IUserRepository userRepository) : IRequest
 {
     public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await userRepository.GetAsync(request.UserId, cancellationToken)
+        var user = await userRepository.GetByIdAsync(request.UserId, cancellationToken)
                    ?? throw new UserNotFoundException(request.UserId);
 
-        if (request.Name is not null)
-            user.SetName(request.Name);
+        //TODO: Некоторые поля должны быть обязательными, необходимо это проверять через FluentValidation
+        if (request.Name.HasValue)
+            user.SetName(request.Name.Value);
 
-        if (request.FoodPreferences is not null)
-            user.SetFoodPreferences(request.FoodPreferences);
+        if (request.FoodPreferences.HasValue)
+            user.SetFoodPreferences(request.FoodPreferences.Value);
 
         await userRepository.SaveChangesAsync(cancellationToken);
         

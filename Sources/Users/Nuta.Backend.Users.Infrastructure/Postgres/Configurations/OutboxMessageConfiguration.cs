@@ -10,6 +10,7 @@ public class OutboxMessageConfiguration : IEntityTypeConfiguration<OutboxMessage
     {
         builder.HasKey(outboxMessage => outboxMessage.Id);
 
+        builder.Property(outboxMessage => outboxMessage.Id).ValueGeneratedNever();
         builder.Property(outboxMessage => outboxMessage.Type).IsRequired();
         builder.Property(outboxMessage => outboxMessage.Payload).IsRequired();
         builder.Property(outboxMessage => outboxMessage.IsSent).IsRequired();

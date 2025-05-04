@@ -28,6 +28,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\BuildingBlocks\Nuta.Backend.BuildingBlocks.Infrastructure\Nuta.Backend.BuildingBlocks.Infrastructure.csproj" />
+        <ProjectReference Include="..\Nuta.Backend.Access.Application\Nuta.Backend.Access.Application.csproj" />
         <ProjectReference Include="..\Nuta.Backend.Access.Domain\Nuta.Backend.Access.Domain.csproj" />
         <ProjectReference Include="..\Nuta.Backend.Access.Options\Nuta.Backend.Access.Options.csproj" />
     </ItemGroup>

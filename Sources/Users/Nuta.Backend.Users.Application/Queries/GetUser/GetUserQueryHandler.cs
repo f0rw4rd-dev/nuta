@@ -9,7 +9,7 @@ public class GetUserQueryHandler(IUserRepository userRepository) : IRequestHandl
 {
     public async Task<UserDto> Handle(GetUserQuery request, CancellationToken cancellationToken)
     {
-        var user = await userRepository.GetAsync(request.UserId, cancellationToken);
+        var user = await userRepository.GetByIdAsync(request.UserId, cancellationToken);
 
         if (user is null)
             throw new UserNotFoundException(request.UserId);

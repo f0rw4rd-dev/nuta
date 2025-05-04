@@ -10,6 +10,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {
         builder.HasKey(product => product.Id);
 
+        builder.Property(product => product.Id).ValueGeneratedNever();
         builder.Property(product => product.Name).IsRequired();
         builder.Property(product => product.Description);
         builder.Property(product => product.Ean13);
@@ -28,17 +29,21 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.OwnsMany(product => product.UserReviews, navBuilder =>
         {
-            navBuilder.WithOwner().HasForeignKey(productReview => productReview.ProductId);
+            navBuilder.WithOwner().HasForeignKey(review => review.ProductId);
 
-            navBuilder.HasKey(productReview => new { productReview.ProductId, productReview.UserId });
+            navBuilder.HasKey(review => new { review.ProductId, review.UserId });
 
-            navBuilder.Property(productReview => productReview.Rating).IsRequired();
-            navBuilder.Property(productReview => productReview.Comment);
-            navBuilder.Property(productReview => productReview.IsHidden).IsRequired();
-            navBuilder.Property(productReview => productReview.CreatedAt).IsRequired();
-            navBuilder.Property(productReview => productReview.UpdatedAt).IsRequired();
+            navBuilder.Property(review => review.ProductId).ValueGeneratedNever();
+            navBuilder.Property(review => review.UserId).ValueGeneratedNever();
+            navBuilder.Property(review => review.Rating).IsRequired();
+            navBuilder.Property(review => review.Comment);
+            navBuilder.Property(review => review.IsHidden).IsRequired();
+            navBuilder.Property(review => review.CreatedAt).IsRequired();
+            navBuilder.Property(review => review.UpdatedAt).IsRequired();
         });
 
         builder.HasOne(product => product.Manufacturer).WithMany().HasForeignKey(product => product.ManufacturerId);
+        
+        builder.HasIndex(product => product.Ean13).IsUnique();
     }
 }

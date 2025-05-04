@@ -5,7 +5,7 @@ namespace Nuta.Backend.Users.Domain.Repositories;
 
 public interface IUserRepository
 {
-    ValueTask<User?> GetAsync(Guid userId, CancellationToken cancellationToken);
+    ValueTask<User?> GetByIdAsync(Guid userId, CancellationToken cancellationToken);
     
     Task<IReadOnlyCollection<User>> GetListAsync(Pagination pagination, CancellationToken cancellationToken);
     

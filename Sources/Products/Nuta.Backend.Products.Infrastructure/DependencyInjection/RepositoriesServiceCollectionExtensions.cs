@@ -10,6 +10,7 @@ internal static class RepositoriesServiceCollectionExtensions
     {
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IAdditiveRepository, AdditiveRepository>();
+        services.AddScoped<IManufacturerRepository, ManufacturerRepository>();
 
         return services;
     }

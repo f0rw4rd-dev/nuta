@@ -34,7 +34,7 @@ public class ProductAssessmentService(IAdditiveRepository additiveRepository) : 
 
     public async Task<int> CalculateNutaScoreAsync(Product product, CancellationToken cancellationToken)
     {
-        var additives = await additiveRepository.GetListAsync(
+        var additives = await additiveRepository.GetListByIdsAsync(
             product.Ingredients.AdditiveIds,
             cancellationToken);
 

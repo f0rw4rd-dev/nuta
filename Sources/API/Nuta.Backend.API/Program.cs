@@ -1,5 +1,4 @@
 using Asp.Versioning;
-using Nuta.Backend.Access.Domain.Enums;
 using Nuta.Backend.Access.Infrastructure.DependencyInjection;
 using Nuta.Backend.Access.Infrastructure.Postgres;
 using Nuta.Backend.API.Filters;
@@ -38,11 +37,7 @@ builder.Services
         options.SubstituteApiVersionInUrl = true;
     });
 
-builder.Services.AddAuthorization(options =>
-{
-    foreach (var p in Enum.GetValues<Permission>())
-        options.AddPolicy(p.ToString(), pb => pb.RequireClaim("permission", p.ToString()));
-});
+builder.Services.AddAuthorization();
 
 builder.Services.Configure<RouteOptions>(options =>
 {

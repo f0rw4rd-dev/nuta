@@ -7,11 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\BuildingBlocks\Nuta.Backend.BuildingBlocks.Application\Nuta.Backend.BuildingBlocks.Application.csproj" />
       <ProjectReference Include="..\..\BuildingBlocks\Nuta.Backend.BuildingBlocks.Domain\Nuta.Backend.BuildingBlocks.Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Exceptions\" />
     </ItemGroup>
 
 </Project>

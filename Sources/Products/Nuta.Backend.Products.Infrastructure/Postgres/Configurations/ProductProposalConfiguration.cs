@@ -10,6 +10,7 @@ public class ProductProposalConfiguration : IEntityTypeConfiguration<ProductProp
     {
         builder.HasKey(proposal => proposal.Id);
         
+        builder.Property(proposal => proposal.Id).ValueGeneratedNever();
         builder.Property(proposal => proposal.ProductId);
         builder.Property(proposal => proposal.UserId).IsRequired();
         builder.Property(proposal => proposal.Name).IsRequired();

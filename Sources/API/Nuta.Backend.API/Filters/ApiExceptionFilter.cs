@@ -7,6 +7,7 @@ namespace Nuta.Backend.API.Filters;
 
 public class ApiExceptionFilter : IExceptionFilter
 {
+    //TODO: Подробности выводить только на тесте
     public void OnException(ExceptionContext context)
     {
         context.Result = context.Exception switch
@@ -19,7 +20,12 @@ public class ApiExceptionFilter : IExceptionFilter
 
             _ => new ObjectResult(new { error = "Произошла внутренняя ошибка сервера." })
             {
-                StatusCode = StatusCodes.Status500InternalServerError
+                StatusCode = StatusCodes.Status500InternalServerError,
+                Value = new
+                {
+                    message = context.Exception.Message,
+                    stackTrace = context.Exception.StackTrace
+                }
             }
         };
 

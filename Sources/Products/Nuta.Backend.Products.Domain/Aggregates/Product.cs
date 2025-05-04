@@ -58,7 +58,7 @@ public class Product : Entity, IAggregateRoot
         string name,
         string? description,
         string? ean13,
-        string imageKey,
+        string? imageKey,
         ProductCategory category,
         ProductSubCategory? subCategory,
         Manufacturer manufacturer,
@@ -93,7 +93,7 @@ public class Product : Entity, IAggregateRoot
         string name,
         string? description,
         string? ean13,
-        string imageKey,
+        string? imageKey,
         ProductCategory category,
         ProductSubCategory? subCategory,
         Manufacturer manufacturer,
@@ -175,6 +175,12 @@ public class Product : Entity, IAggregateRoot
     public void SetLabels(ProductLabels productLabels)
     {
         Labels = productLabels;
+        UpdatedAt = DateTime.UtcNow;
+    }
+    
+    public void ClearLabels()
+    {
+        Labels = null;
         UpdatedAt = DateTime.UtcNow;
     }
     

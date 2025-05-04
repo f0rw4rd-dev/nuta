@@ -10,6 +10,7 @@ public class ManufacturerConfiguration : IEntityTypeConfiguration<Manufacturer>
     {
         builder.HasKey(manufacturer => manufacturer.Id);
         
+        builder.Property(manufacturer => manufacturer.Id).ValueGeneratedNever();
         builder.Property(manufacturer => manufacturer.Name).IsRequired();
         builder.Property(manufacturer => manufacturer.Description);
         builder.Property(manufacturer => manufacturer.CreatedAt).IsRequired();

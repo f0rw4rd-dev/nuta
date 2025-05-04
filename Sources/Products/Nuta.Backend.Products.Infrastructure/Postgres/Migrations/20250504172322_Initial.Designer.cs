@@ -12,7 +12,7 @@ using Nuta.Backend.Products.Infrastructure.Postgres;
 namespace Nuta.Backend.Products.Infrastructure.Postgres.Migrations
 {
     [DbContext(typeof(ProductsModuleDbContext))]
-    [Migration("20250502113225_Initial")]
+    [Migration("20250504172322_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -29,7 +29,6 @@ namespace Nuta.Backend.Products.Infrastructure.Postgres.Migrations
             modelBuilder.Entity("Nuta.Backend.BuildingBlocks.Infrastructure.Inbox.InboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -64,7 +63,6 @@ namespace Nuta.Backend.Products.Infrastructure.Postgres.Migrations
             modelBuilder.Entity("Nuta.Backend.BuildingBlocks.Infrastructure.Outbox.OutboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -95,7 +93,6 @@ namespace Nuta.Backend.Products.Infrastructure.Postgres.Migrations
             modelBuilder.Entity("Nuta.Backend.Products.Domain.Aggregates.Additive", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -138,7 +135,6 @@ namespace Nuta.Backend.Products.Infrastructure.Postgres.Migrations
             modelBuilder.Entity("Nuta.Backend.Products.Domain.Aggregates.Manufacturer", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -168,7 +164,6 @@ namespace Nuta.Backend.Products.Infrastructure.Postgres.Migrations
             modelBuilder.Entity("Nuta.Backend.Products.Domain.Aggregates.Product", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -220,6 +215,10 @@ namespace Nuta.Backend.Products.Infrastructure.Postgres.Migrations
                     b.HasKey("Id")
                         .HasName("pk_products");
 
+                    b.HasIndex("Ean13")
+                        .IsUnique()
+                        .HasDatabaseName("ix_products_ean13");
+
                     b.HasIndex("ManufacturerId")
                         .HasDatabaseName("ix_products_manufacturer_id");
 
@@ -229,7 +228,6 @@ namespace Nuta.Backend.Products.Infrastructure.Postgres.Migrations
             modelBuilder.Entity("Nuta.Backend.Products.Domain.Aggregates.ProductProposal", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -285,7 +283,6 @@ namespace Nuta.Backend.Products.Infrastructure.Postgres.Migrations
                                 .HasColumnName("product_id");
 
                             b1.Property<Guid>("UserId")
-                                .ValueGeneratedOnAdd()
                                 .HasColumnType("uuid")
                                 .HasColumnName("user_id");
 

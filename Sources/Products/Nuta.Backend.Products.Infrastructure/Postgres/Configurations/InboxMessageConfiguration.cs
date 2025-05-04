@@ -10,6 +10,7 @@ public class InboxMessageConfiguration : IEntityTypeConfiguration<InboxMessage>
     {
         builder.HasKey(inboxMessage => inboxMessage.Id);
 
+        builder.Property(inboxMessage => inboxMessage.Id).ValueGeneratedNever();
         builder.Property(inboxMessage => inboxMessage.Type).IsRequired();
         builder.Property(inboxMessage => inboxMessage.Payload).IsRequired();
         builder.Property(inboxMessage => inboxMessage.Status).IsRequired();

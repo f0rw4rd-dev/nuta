@@ -4,7 +4,7 @@ namespace Nuta.Backend.BuildingBlocks.Domain;
 
 public interface IDomainEvent : INotification
 {
-    Guid Id { get; }
+    Guid EventId { get; }
 
     DateTime OccurredAt { get; }
 }

@@ -8,7 +8,7 @@ namespace Nuta.Backend.Users.Infrastructure.Repositories;
 
 public class UserRepository(UsersModuleDbContext dbContext) : IUserRepository
 {
-    public ValueTask<User?> GetAsync(Guid userId, CancellationToken cancellationToken)
+    public ValueTask<User?> GetByIdAsync(Guid userId, CancellationToken cancellationToken)
     {
         return dbContext.Users.FindAsync([userId], cancellationToken);
     }
@@ -18,6 +18,7 @@ public class UserRepository(UsersModuleDbContext dbContext) : IUserRepository
         CancellationToken cancellationToken)
     {
         return await dbContext.Users
+            .TagWith($"{nameof(UserRepository)} - {nameof(GetListAsync)}")
             .OrderBy(x => x.CreatedAt)
             .Skip(pagination.Offset)
             .Take(pagination.Limit)

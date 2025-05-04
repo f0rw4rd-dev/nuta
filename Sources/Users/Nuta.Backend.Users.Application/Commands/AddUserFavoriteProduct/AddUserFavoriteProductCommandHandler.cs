@@ -9,7 +9,7 @@ public class AddUserFavoriteProductCommandHandler(IUserRepository userRepository
 {
     public async Task<Unit> Handle(AddUserFavoriteProductCommand request, CancellationToken cancellationToken)
     {
-        var user = await userRepository.GetAsync(request.UserId, cancellationToken)
+        var user = await userRepository.GetByIdAsync(request.UserId, cancellationToken)
                    ?? throw new UserNotFoundException(request.UserId);
 
         user.AddFavoriteProduct(request.ProductId);

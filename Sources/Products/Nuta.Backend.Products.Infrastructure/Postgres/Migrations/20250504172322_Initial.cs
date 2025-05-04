@@ -161,6 +161,13 @@ namespace Nuta.Backend.Products.Infrastructure.Postgres.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "ix_products_ean13",
+                schema: "products",
+                table: "products",
+                column: "ean13",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "ix_products_manufacturer_id",
                 schema: "products",
                 table: "products",

@@ -9,7 +9,7 @@ public class ViewProductByUserCommandHandler(IUserRepository userRepository)
 {
     public async Task<Unit> Handle(ViewProductByUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await userRepository.GetAsync(request.UserId, cancellationToken)
+        var user = await userRepository.GetByIdAsync(request.UserId, cancellationToken)
                    ?? throw new UserNotFoundException(request.UserId);
 
         user.ViewProduct(request.ProductId);

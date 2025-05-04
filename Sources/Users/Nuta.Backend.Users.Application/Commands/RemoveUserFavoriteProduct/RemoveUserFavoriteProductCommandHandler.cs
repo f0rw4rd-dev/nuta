@@ -9,7 +9,7 @@ public class RemoveUserFavoriteProductCommandHandler(IUserRepository userReposit
 {
     public async Task<Unit> Handle(RemoveUserFavoriteProductCommand request, CancellationToken cancellationToken)
     {
-        var user = await userRepository.GetAsync(request.UserId, cancellationToken)
+        var user = await userRepository.GetByIdAsync(request.UserId, cancellationToken)
                    ?? throw new UserNotFoundException(request.UserId);
 
         user.RemoveFavoriteProduct(request.ProductId);

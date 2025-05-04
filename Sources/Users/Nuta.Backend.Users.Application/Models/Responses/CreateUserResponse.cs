@@ -1,3 +1,3 @@
 namespace Nuta.Backend.Users.Application.Models.Responses;
 
-public record CreateUserResponse(Guid Id);
+public record CreateUserResponse(Guid UserId);

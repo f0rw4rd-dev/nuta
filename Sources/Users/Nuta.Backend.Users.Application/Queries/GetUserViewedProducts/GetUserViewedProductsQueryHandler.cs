@@ -12,7 +12,7 @@ public class GetUserViewedProductsQueryHandler(IUserRepository userRepository)
         GetUserViewedProductsQuery request,
         CancellationToken cancellationToken)
     {
-        var user = await userRepository.GetAsync(request.UserId, cancellationToken);
+        var user = await userRepository.GetByIdAsync(request.UserId, cancellationToken);
         
         if (user is null)
             throw new UserNotFoundException(request.UserId);
